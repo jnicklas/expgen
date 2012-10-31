@@ -13,10 +13,11 @@ module Expgen
     rule(:multiply)   { str('*') }
     rule(:dash)       { str('-') }
     rule(:comma)      { str(',') }
+    rule(:backslash)  { str('\\') }
 
     rule(:integer)    { match('[0-9]').repeat(1).as(:int) }
 
-    rule(:literal) { match["^#{NON_LITERALS}"].repeat(1) }
+    rule(:literal) { match["^#{NON_LITERALS}"] }
 
     rule(:repeat_amount) { lcurly >> integer.as(:repeat) >> (comma >> integer.as(:max).maybe).maybe >> rcurly }
     rule(:repeat) { plus.as(:repeat) | multiply.as(:repeat) | repeat_amount }
@@ -36,8 +37,10 @@ module Expgen
     end
 
     # basics
-    rule(:thing) { literal.as(:literal) | group.as(:group) | char_class.as(:char_class) }
+    rule(:thing) { anchor | literal.as(:literal) | group.as(:group) | char_class.as(:char_class) }
     rule(:things) { thing.repeat(1) }
+
+    rule(:anchor) { str("^") | str("$") | backslash >> match["bBAzZ"] }
 
     rule(:alternation) { things.as(:alt) >> (pipe >> things.as(:alt)).repeat(1) }
 

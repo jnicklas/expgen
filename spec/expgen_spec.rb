@@ -46,4 +46,12 @@ describe Expgen do
     test(/f[abcd]{2,}b/)
     test(/f[abcd]{2,4}b/)
   end
+
+  describe "anchors (are simply ignored)" do
+    test(/^foo$/)
+    test(/\bfoo\b/)
+    test(/f\Bfo/)
+    test(/\Afoo\z/)
+    test(/\Afoo\Z/)
+  end
 end
