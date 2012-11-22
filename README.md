@@ -1,29 +1,26 @@
 # Expgen
 
-TODO: Write a gem description
+Expgen solves a very simple problem: Given a regular expression, find a string
+which matches that regular expression. Use it like this:
 
-## Installation
+``` ruby
+Expgen.gen(/foo\w+b[a-z]{2,3}/) # => "fooxbdp"
+```
 
-Add this line to your application's Gemfile:
+For a full list of supported syntax, see the spec file.
 
-    gem 'expgen'
+Some things are really difficult to generate accurate expressions for, it's
+even quite easy to create a regexp which matches *no* strings. For example
+`/a\bc/` will not match any string, since there can never be a word boundary
+between characters.
 
-And then execute:
+The following is a list of things Expgen does *not* support:
 
-    $ bundle
+- Anchors (are ignored)
+- Lookaheads and lookbehinds
+- Subexpressions
+- Backreferences
 
-Or install it yourself as:
+# License
 
-    $ gem install expgen
-
-## Usage
-
-TODO: Write usage instructions here
-
-## Contributing
-
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+MIT, see separate LICENSE.txt file
