@@ -25,10 +25,10 @@ module Expgen
           repeat(value[:repeat]) { randomize(value[:content]) }
         when :char_class
           repeat(value[:repeat]) { value[:content].map(&:chars).flatten.sample }
-        when :shorthand_char_class
-          repeat(value[:repeat]) { shorthand(value[:letter]) }
         else raise ArgumentError, "unknown key #{key}"
         end
+      elsif tree.is_a?(CharacterClass::ShorthandGroup)
+        repeat(tree.repeat) { tree.chars.sample }
       else
         tree.to_s
       end

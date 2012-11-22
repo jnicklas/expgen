@@ -70,4 +70,10 @@ describe Expgen do
     test(/f\so/)
     test(/f\So/)
   end
+
+  describe "shorthand character classes inside regular character classes" do
+    test(/f[\w]o/)
+    test(/f[\w%&]o/)
+    test(/f[\w]o/)
+  end
 end
