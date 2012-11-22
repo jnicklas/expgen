@@ -1,5 +1,15 @@
 module Expgen
   class CharacterClass < Struct.new(:ast)
+    ASCII = (32.chr..126.chr).to_a
+    WORD = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a + ["_"]
+    NEGATIVE_WORD = ASCII - WORD
+    DIGIT = (0..9).map(&:to_s)
+    NON_DIGIT = ASCII - DIGIT
+    HEX_DIGIT = ("a".."f").to_a + ("A".."F").to_a + ("0".."9").to_a
+    NON_HEX_DIGIT = ASCII - HEX_DIGIT
+    SPACE = [" "]
+    NON_SPACE = ASCII.drop(1)
+
     class LiteralGroup < Struct.new(:ast)
       def chars
         [ast.to_s]
@@ -9,14 +19,14 @@ module Expgen
     class ShorthandGroup < Struct.new(:ast)
       def chars
         case ast[:letter].to_s
-          when "w" then ("a".."z").to_a                # A word character ([a-zA-Z0-9_])
-          when "W" then "!@$%^&*()".split("")          # A non-word character ([^a-zA-Z0-9_])
-          when "d" then (0..9).map(&:to_s)             # A digit character ([0-9])
-          when "D" then ("a".."z").to_a                # A non-digit character ([^0-9])
-          when "h" then (0..15).map { |n| n.to_s(16) } # A non-hexdigit character ([^0-9a-fA-F])
-          when "H" then ("g".."z").to_a                # A non-whitespace character: /[^ \t\r\n\f]/
-          when "s" then [" "]                          # A whitespace character: /[ \t\r\n\f]/
-          when "S" then ("a".."z").to_a                # A non-whitespace character: /[^ \t\r\n\f]/
+          when "w" then WORD
+          when "W" then NEGATIVE_WORD
+          when "d" then DIGIT
+          when "D" then NON_DIGIT
+          when "h" then HEX_DIGIT
+          when "H" then NON_HEX_DIGIT
+          when "s" then SPACE
+          when "S" then NON_SPACE
         end
       end
 
@@ -40,7 +50,12 @@ module Expgen
     end
 
     def chars
-      groups.map(&:chars).flatten
+      chars = groups.map(&:chars).flatten
+      val = if ast[:negative]
+        ASCII - chars
+      else
+        chars
+      end
     end
   end
 end

@@ -80,4 +80,21 @@ describe Expgen do
     test(/f[\w%&]o/)
     test(/f[\w]o/)
   end
+
+  describe "negated character classes" do
+    test(/[^abcd]/)
+    test(/f[^abcd]b/)
+    test(/f[^a-z]b/)
+    test(/f[^0-9]b/)
+    test(/f[^&a-z%]b/)
+    test(/f[^abcd]b/)
+    test(/f[^abcd]*b/)
+    test(/f[^abcd]+b/)
+    test(/f[^abcd]{2}b/)
+    test(/f[^abcd]{2,}b/)
+    test(/f[^abcd]{2,4}b/)
+    test(/f[^\w]o/)
+    test(/f[^\w%&]o/)
+    test(/f[^\w]o/)
+  end
 end
