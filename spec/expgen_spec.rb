@@ -54,4 +54,20 @@ describe Expgen do
     test(/\Afoo\z/)
     test(/\Afoo\Z/)
   end
+
+  describe "shorthand character classes" do
+    test(/f\wo/)
+    test(/f\w+o/)
+    test(/f\w*o/)
+    test(/f\w{2}o/)
+    test(/f\w{3,}o/)
+    test(/f\w{2,4}o/)
+    test(/f\Wo/)
+    test(/f\do/)
+    test(/f\Do/)
+    test(/f\ho/)
+    test(/f\Ho/)
+    test(/f\so/)
+    test(/f\So/)
+  end
 end

@@ -3,6 +3,7 @@ require "expgen/version"
 require "expgen/parser"
 require "expgen/transform"
 require "expgen/randomizer"
+require "expgen/character_class"
 
 module Expgen
   def self.cache

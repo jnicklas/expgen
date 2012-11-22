@@ -24,12 +24,18 @@ module Expgen
         when :group
           repeat(value[:repeat]) { randomize(value[:content]) }
         when :char_class
-          repeat(value[:repeat]) { value[:content].flatten.sample }
+          repeat(value[:repeat]) { value[:content].map(&:chars).flatten.sample }
+        when :shorthand_char_class
+          repeat(value[:repeat]) { shorthand(value[:letter]) }
         else raise ArgumentError, "unknown key #{key}"
         end
       else
         tree.to_s
       end
+    end
+
+    def shorthand(letter)
+      CharacterClass::ShorthandGroup.new(letter).chars
     end
   end
 end
