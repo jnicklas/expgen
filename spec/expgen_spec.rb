@@ -108,8 +108,23 @@ describe Expgen do
     test(/f\ao/)
     test(/f\eo/)
     test(/f\345o/)
-    test(/f\xAF/)
+    test(/f\xAFo/)
     test(/f\u04AFo/u)
     test(/f\qo/)
+  end
+
+  describe "control characters in character classes" do
+    test(/f[\n]o/)
+    test(/f[\s]o/)
+    test(/f[\r]o/)
+    test(/f[\t]o/)
+    test(/f[\v]o/)
+    test(/f[\f]o/)
+    test(/f[\a]o/)
+    test(/f[\e]o/)
+    test(/f[\345]o/)
+    test(/f[\xAF]o/)
+    test(/f[\u04AF]o/u)
+    test(/f[\q]o/)
   end
 end
