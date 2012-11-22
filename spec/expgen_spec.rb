@@ -17,6 +17,10 @@ describe Expgen do
     end
   end
 
+  it "raises an exception if the regexp can't be parsed" do
+    expect { Expgen.gen(/(?!foo)/) } .to raise_error(Expgen::ParseError)
+  end
+
   test(/foo|bar/)
 
   describe "groups" do
