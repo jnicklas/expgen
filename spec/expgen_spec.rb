@@ -97,4 +97,19 @@ describe Expgen do
     test(/f[^\w%&]o/)
     test(/f[^\w]o/)
   end
+
+  describe "control characters" do
+    test(/f\no/)
+    test(/f\so/)
+    test(/f\ro/)
+    test(/f\to/)
+    test(/f\vo/)
+    test(/f\fo/)
+    test(/f\ao/)
+    test(/f\eo/)
+    test(/f\345o/)
+    test(/f\xAF/)
+    test(/f\u04AFo/u)
+    test(/f\qo/)
+  end
 end
