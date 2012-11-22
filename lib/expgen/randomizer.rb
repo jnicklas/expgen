@@ -27,6 +27,8 @@ module Expgen
           repeat(value[:repeat]) { value[:content].map(&:chars).flatten.sample }
         else raise ArgumentError, "unknown key #{key}"
         end
+      elsif tree.is_a?(CharacterClass)
+        repeat(tree.repeat) { tree.chars.sample }
       elsif tree.is_a?(CharacterClass::ShorthandGroup)
         repeat(tree.repeat) { tree.chars.sample }
       else
