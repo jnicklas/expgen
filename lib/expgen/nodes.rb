@@ -68,27 +68,33 @@ module Expgen
       end
     end
 
-    class EscapeChar < Character
+    class EscapeCharControl < Character
       def chars
-        [ESCAPE_CHARS[ast.to_s]]
+        [ESCAPE_CHARS[ast[:letter].to_s]]
+      end
+    end
+
+    class EscapeCharLiteral < Character
+      def chars
+        [ast[:letter].to_s]
       end
     end
 
     class CodePointOctal < Character
       def chars
-        [ast.to_s.to_i(8).chr]
+        [ast[:code].to_s.to_i(8).chr]
       end
     end
 
     class CodePointHex < Character
       def chars
-        [ast.to_s.to_i(16).chr]
+        [ast[:code].to_s.to_i(16).chr]
       end
     end
 
     class CodePointUnicode < Character
       def chars
-        [ast.to_s.to_i(16).chr("UTF-8")]
+        [ast[:code].to_s.to_i(16).chr("UTF-8")]
       end
     end
   end

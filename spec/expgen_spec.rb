@@ -127,4 +127,31 @@ describe Expgen do
     test(/f[\u04AF]o/u)
     test(/f[\q]o/)
   end
+
+  describe "repeated escape characters" do
+    test(/f\n*o/)
+    test(/f\n+o/)
+    test(/f\n{2}o/)
+    test(/f\n{2,5}o/)
+    test(/f\345*o/)
+    test(/f\345+o/)
+    test(/f\345{2}o/)
+    test(/f\345{2,}o/)
+    test(/f\345{2,4}o/)
+    test(/f\xAF*o/)
+    test(/f\xAF+o/)
+    test(/f\xAF{2}o/)
+    test(/f\xAF{2,}o/)
+    test(/f\xAF{2,4}o/)
+    test(/f\u04AF*o/u)
+    test(/f\u04AF+o/u)
+    test(/f\u04AF{2}o/u)
+    test(/f\u04AF{2,}o/u)
+    test(/f\u04AF{2,4}o/u)
+    test(/f\q+o/)
+    test(/f\q*o/)
+    test(/f\q{2}o/)
+    test(/f\q{2,}o/)
+    test(/f\q{2,4}o/)
+  end
 end

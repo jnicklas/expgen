@@ -37,11 +37,13 @@ module Expgen
     end
     rule(:char_class_shorthand) { backslash >> match["wWdDhHsS"].as(:letter) >> repeat.maybe }
 
-    rule(:code_point_octal) { match["0-7"].repeat(3).as(:code_point_octal) }
-    rule(:code_point_hex) { str("x") >> match["0-9a-fA-F"].repeat(2).as(:code_point_hex) }
-    rule(:code_point_unicode) { str("u") >> match["0-9a-fA-F"].repeat(4).as(:code_point_unicode) }
+    rule(:code_point_octal) { backslash >> match["0-7"].repeat(3).as(:code) >> repeat.maybe }
+    rule(:code_point_hex) { backslash >> str("x") >> match["0-9a-fA-F"].repeat(2).as(:code) >> repeat.maybe }
+    rule(:code_point_unicode) { backslash >> str("u") >> match["0-9a-fA-F"].repeat(4).as(:code) >> repeat.maybe }
+    rule(:escape_char_control) { backslash >> match["nsrtvfae"].as(:letter) >> repeat.maybe }
+    rule(:escape_char_literal) { backslash >> match(".").as(:letter) >> repeat.maybe }
 
-    rule(:escape_char) { backslash >> (match["nsrtvfae"].as(:escape_char) | code_point_octal | code_point_hex | code_point_unicode | match(".").as(:literal)) }
+    rule(:escape_char) { escape_char_control.as(:escape_char_control) | code_point_octal.as(:code_point_octal) | code_point_hex.as(:code_point_hex) | code_point_unicode.as(:code_point_unicode) | escape_char_literal.as(:escape_char_literal) }
 
     # basics
     rule(:thing) { anchor | char_class_shorthand.as(:char_class_shorthand) | escape_char | literal.as(:literal) | group.as(:group) | char_class.as(:char_class) }
