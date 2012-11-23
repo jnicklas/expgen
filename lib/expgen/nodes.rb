@@ -1,12 +1,22 @@
 module Expgen
   module Nodes
-    class CharacterClass < Struct.new(:ast)
-      def groups
-        ast[:groups]
+    class Node
+      attr_reader :ast
+
+      def initialize(ast)
+        @ast = ast
       end
 
       def repeat
-        ast[:repeat]
+        ast[:repeat] if ast.is_a?(Hash)
+      end
+    end
+
+    class Character < Node; end
+
+    class CharacterClass < Character
+      def groups
+        ast[:groups]
       end
 
       def chars
@@ -19,13 +29,13 @@ module Expgen
       end
     end
 
-    class Literal < Struct.new(:ast)
+    class Literal < Character
       def chars
         [ast.to_s]
       end
     end
 
-    class Shorthand < Struct.new(:ast)
+    class Shorthand < Character
       def chars
         case ast[:letter].to_s
           when "w" then WORD
@@ -38,37 +48,33 @@ module Expgen
           when "S" then NON_SPACE
         end
       end
-
-      def repeat
-        ast[:repeat]
-      end
     end
 
-    class Range < Struct.new(:ast)
+    class Range < Character
       def chars
         (ast[:from].to_s..ast[:to].to_s).to_a
       end
     end
 
-    class EscapeChar < Struct.new(:ast)
+    class EscapeChar < Character
       def chars
         [ESCAPE_CHARS[ast.to_s]]
       end
     end
 
-    class CodePointOctal < Struct.new(:ast)
+    class CodePointOctal < Character
       def chars
         [ast.to_s.to_i(8).chr]
       end
     end
 
-    class CodePointHex < Struct.new(:ast)
+    class CodePointHex < Character
       def chars
         [ast.to_s.to_i(16).chr]
       end
     end
 
-    class CodePointUnicode < Struct.new(:ast)
+    class CodePointUnicode < Character
       def chars
         [ast.to_s.to_i(16).chr("UTF-8")]
       end

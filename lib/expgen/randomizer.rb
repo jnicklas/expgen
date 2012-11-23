@@ -23,30 +23,10 @@ module Expgen
         when :alternation then randomize(value.sample[:alt])
         when :group
           repeat(value[:repeat]) { randomize(value[:content]) }
-        when :char_class
-          repeat(value[:repeat]) { value[:content].map(&:chars).flatten.sample }
-        when :code_point_octal
-          value.to_s.to_i(8).chr
-        when :code_point_hex
-          value.to_s.to_i(16).chr
-        when :code_point_unicode
-          value.to_s.to_i(16).chr("UTF-8")
         else raise ArgumentError, "unknown key #{key}"
         end
-      elsif tree.is_a?(Nodes::CharacterClass)
+      elsif tree.is_a?(Nodes::Character)
         repeat(tree.repeat) { tree.chars.sample }
-      elsif tree.is_a?(Nodes::Literal)
-        tree.chars.sample
-      elsif tree.is_a?(Nodes::Shorthand)
-        repeat(tree.repeat) { tree.chars.sample }
-      elsif tree.is_a?(Nodes::EscapeChar)
-        tree.chars.sample
-      elsif tree.is_a?(Nodes::CodePointHex)
-        tree.chars.sample
-      elsif tree.is_a?(Nodes::CodePointOctal)
-        tree.chars.sample
-      elsif tree.is_a?(Nodes::CodePointUnicode)
-        tree.chars.sample
       else
         tree.to_s
       end
