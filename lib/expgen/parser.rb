@@ -33,7 +33,7 @@ module Expgen
     rule(:char) { match["^#{NON_LITERALS}"] }
     rule(:range) { (alpha.as(:from) >> dash >> alpha.as(:to)) | (number.as(:from) >> dash >> number.as(:to)) }
     rule(:char_class) do
-      lbracket >> match["\\^"].maybe.as(:negative) >> ( char_class_shorthand.as(:char_class_shorthand) | range.as(:char_class_range) | char.as(:char_class_literal)).repeat.as(:groups) >> rbracket >> repeat.maybe
+      lbracket >> match["\\^"].maybe.as(:negative) >> ( char_class_shorthand.as(:char_class_shorthand) | escape_char | range.as(:char_class_range) | char.as(:char_class_literal)).repeat.as(:groups) >> rbracket >> repeat.maybe
     end
     rule(:char_class_shorthand) { backslash >> match["wWdDhHsS"].as(:letter) >> repeat.maybe }
 

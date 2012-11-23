@@ -35,9 +35,17 @@ module Expgen
         end
       elsif tree.is_a?(CharacterClass)
         repeat(tree.repeat) { tree.chars.sample }
+      elsif tree.is_a?(CharacterClass::LiteralGroup)
+        tree.chars.sample
       elsif tree.is_a?(CharacterClass::ShorthandGroup)
         repeat(tree.repeat) { tree.chars.sample }
       elsif tree.is_a?(CharacterClass::EscapeCharGroup)
+        tree.chars.sample
+      elsif tree.is_a?(CharacterClass::CodePointHex)
+        tree.chars.sample
+      elsif tree.is_a?(CharacterClass::CodePointOctal)
+        tree.chars.sample
+      elsif tree.is_a?(CharacterClass::CodePointUnicode)
         tree.chars.sample
       else
         tree.to_s

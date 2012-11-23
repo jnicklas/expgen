@@ -48,6 +48,24 @@ module Expgen
       end
     end
 
+    class CodePointOctal < Struct.new(:ast)
+      def chars
+        [ast.to_s.to_i(8).chr]
+      end
+    end
+
+    class CodePointHex < Struct.new(:ast)
+      def chars
+        [ast.to_s.to_i(16).chr]
+      end
+    end
+
+    class CodePointUnicode < Struct.new(:ast)
+      def chars
+        [ast.to_s.to_i(16).chr("UTF-8")]
+      end
+    end
+
     def groups
       ast[:groups]
     end
