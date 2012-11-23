@@ -40,34 +40,33 @@ module Expgen
   end
 
   class CharacterClass < Parslet::Parser
+    rule(:dash)       { str('-') }
+    rule(:lbracket)   { str('[') }
+    rule(:rbracket)   { str(']') }
 
+    rule(:alpha) { match["a-z"] }
+    rule(:number) { match["0-9"] }
+    rule(:char) { match["^#{NON_LITERALS}"].as(:letter) }
+    rule(:range) { (alpha.as(:from) >> dash >> alpha.as(:to)) | (number.as(:from) >> dash >> number.as(:to)) }
+
+    rule(:contents) { ShorthandCharacterClass.new | EscapeChar.new | range.as(:char_class_range) | char.as(:char_class_literal) }
+    rule(:negative) { match["\\^"] }
+
+    rule(:char_class) { (lbracket >> negative.maybe.as(:negative) >> contents.repeat.as(:groups) >> rbracket >> Repeat.new.maybe).as(:char_class) }
+    root(:char_class)
   end
 
   class Parser < Parslet::Parser
     rule(:lparen)     { str('(') }
     rule(:rparen)     { str(')') }
-    rule(:lbracket)   { str('[') }
-    rule(:rbracket)   { str(']') }
     rule(:pipe)       { str('|') }
-    rule(:dash)       { str('-') }
     rule(:backslash)  { str('\\') }
 
     rule(:literal) { match["^#{NON_LITERALS}"].as(:letter) >> Repeat.new.maybe  }
 
     rule(:group) { lparen >> expression.as(:elements) >> rparen >> Repeat.new.maybe }
 
-    # character classes
-    rule(:alpha) { match["a-z"] }
-    rule(:number) { match["0-9"] }
-    rule(:char) { match["^#{NON_LITERALS}"].as(:letter) }
-    rule(:range) { (alpha.as(:from) >> dash >> alpha.as(:to)) | (number.as(:from) >> dash >> number.as(:to)) }
-    rule(:char_class) do
-      lbracket >> match["\\^"].maybe.as(:negative) >> ( ShorthandCharacterClass.new | EscapeChar.new | range.as(:char_class_range) | char.as(:char_class_literal)).repeat.as(:groups) >> rbracket >> Repeat.new.maybe
-    end
-
-
-    # basics
-    rule(:thing) { anchor | ShorthandCharacterClass.new | EscapeChar.new | literal.as(:literal) | group.as(:group) | char_class.as(:char_class) }
+    rule(:thing) { anchor | ShorthandCharacterClass.new | EscapeChar.new | literal.as(:literal) | group.as(:group) | CharacterClass.new }
     rule(:things) { thing.repeat(1) }
 
     rule(:anchor) { str("^") | str("$") | backslash >> match["bBAzZ"] }
