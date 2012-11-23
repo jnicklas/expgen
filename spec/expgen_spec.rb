@@ -128,6 +128,14 @@ describe Expgen do
     test(/f[\q]o/)
   end
 
+  describe "repeated letters" do
+    test(/fo*o/)
+    test(/fo+o/)
+    test(/fo{2}o/)
+    test(/fo{2,}o/)
+    test(/fo{2,4}o/)
+  end
+
   describe "repeated escape characters" do
     test(/f\n*o/)
     test(/f\n+o/)

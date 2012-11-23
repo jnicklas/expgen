@@ -8,7 +8,7 @@ module Expgen
       end
 
       def repeat
-        ast[:repeat] if ast.is_a?(Hash)
+        ast[:repeat]
       end
     end
 
@@ -43,7 +43,7 @@ module Expgen
 
     class Literal < Character
       def chars
-        [ast.to_s]
+        [ast[:letter].to_s]
       end
     end
 

@@ -17,7 +17,7 @@ module Expgen
 
     rule(:integer)    { match('[0-9]').repeat(1).as(:int) }
 
-    rule(:literal) { match["^#{NON_LITERALS}"] }
+    rule(:literal) { match["^#{NON_LITERALS}"].as(:letter) >> repeat.maybe  }
 
     rule(:repeat_amount) { lcurly >> integer.as(:repeat) >> (comma >> integer.as(:max).maybe).maybe >> rcurly }
     rule(:repeat) { plus.as(:repeat) | multiply.as(:repeat) | repeat_amount }
@@ -30,7 +30,7 @@ module Expgen
     # character classes
     rule(:alpha) { match["a-z"] }
     rule(:number) { match["0-9"] }
-    rule(:char) { match["^#{NON_LITERALS}"] }
+    rule(:char) { match["^#{NON_LITERALS}"].as(:letter) }
     rule(:range) { (alpha.as(:from) >> dash >> alpha.as(:to)) | (number.as(:from) >> dash >> number.as(:to)) }
     rule(:char_class) do
       lbracket >> match["\\^"].maybe.as(:negative) >> ( char_class_shorthand.as(:char_class_shorthand) | escape_char | range.as(:char_class_range) | char.as(:char_class_literal)).repeat.as(:groups) >> rbracket >> repeat.maybe
