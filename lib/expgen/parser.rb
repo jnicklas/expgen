@@ -37,9 +37,9 @@ module Expgen
     end
     rule(:char_class_shorthand) { backslash >> match["wWdDhHsS"].as(:letter) >> repeat.maybe }
 
-    rule(:code_point_octal) { backslash >> match["0-7"].repeat(3).as(:code) >> repeat.maybe }
-    rule(:code_point_hex) { backslash >> str("x") >> match["0-9a-fA-F"].repeat(2).as(:code) >> repeat.maybe }
-    rule(:code_point_unicode) { backslash >> str("u") >> match["0-9a-fA-F"].repeat(4).as(:code) >> repeat.maybe }
+    rule(:code_point_octal) { backslash >> match["0-7"].repeat(3,3).as(:code) >> repeat.maybe }
+    rule(:code_point_hex) { backslash >> str("x") >> match["0-9a-fA-F"].repeat(2,2).as(:code) >> repeat.maybe }
+    rule(:code_point_unicode) { backslash >> str("u") >> match["0-9a-fA-F"].repeat(4,4).as(:code) >> repeat.maybe }
     rule(:escape_char_control) { backslash >> match["nsrtvfae"].as(:letter) >> repeat.maybe }
     rule(:escape_char_literal) { backslash >> match(".").as(:letter) >> repeat.maybe }
 

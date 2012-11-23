@@ -108,8 +108,11 @@ describe Expgen do
     test(/f\ao/)
     test(/f\eo/)
     test(/f\345o/)
+    test(/f\345123o/)
     test(/f\xAFo/)
+    test(/f\xAF12o/)
     test(/f\u04AFo/u)
+    test(/f\u04AF00o/u)
     test(/f\qo/)
   end
 
