@@ -33,27 +33,23 @@ module Expgen
           value.to_s.to_i(16).chr("UTF-8")
         else raise ArgumentError, "unknown key #{key}"
         end
-      elsif tree.is_a?(CharacterClass)
+      elsif tree.is_a?(Nodes::CharacterClass)
         repeat(tree.repeat) { tree.chars.sample }
-      elsif tree.is_a?(CharacterClass::LiteralGroup)
+      elsif tree.is_a?(Nodes::Literal)
         tree.chars.sample
-      elsif tree.is_a?(CharacterClass::ShorthandGroup)
+      elsif tree.is_a?(Nodes::Shorthand)
         repeat(tree.repeat) { tree.chars.sample }
-      elsif tree.is_a?(CharacterClass::EscapeCharGroup)
+      elsif tree.is_a?(Nodes::EscapeChar)
         tree.chars.sample
-      elsif tree.is_a?(CharacterClass::CodePointHex)
+      elsif tree.is_a?(Nodes::CodePointHex)
         tree.chars.sample
-      elsif tree.is_a?(CharacterClass::CodePointOctal)
+      elsif tree.is_a?(Nodes::CodePointOctal)
         tree.chars.sample
-      elsif tree.is_a?(CharacterClass::CodePointUnicode)
+      elsif tree.is_a?(Nodes::CodePointUnicode)
         tree.chars.sample
       else
         tree.to_s
       end
-    end
-
-    def shorthand(letter)
-      CharacterClass::ShorthandGroup.new(letter).chars
     end
   end
 end
