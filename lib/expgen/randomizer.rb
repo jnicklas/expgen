@@ -15,16 +15,11 @@ module Expgen
     end
 
     def randomize(tree)
-      if tree.is_a?(Array)
-        tree.map { |el| randomize(el) }.join
-      elsif tree.is_a?(Nodes::Alternation)
-        randomize(tree.options.sample)
-      elsif tree.is_a?(Nodes::Group)
-        repeat(tree.repeat) { randomize(tree.elements) }
-      elsif tree.is_a?(Nodes::Character)
-        repeat(tree.repeat) { tree.chars.sample }
-      else
-        tree.to_s
+      case tree
+        when Array              then tree.map { |el| randomize(el) }.join
+        when Nodes::Alternation then randomize(tree.options.sample)
+        when Nodes::Group       then repeat(tree.repeat) { randomize(tree.elements) }
+        when Nodes::Character   then repeat(tree.repeat) { tree.chars.sample }
       end
     end
   end
