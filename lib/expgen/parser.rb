@@ -16,17 +16,13 @@ module Expgen
     rule(:backslash)  { str('\\') }
     rule(:questionmark) { str('?') }
 
-    rule(:integer)    { match('[0-9]').repeat(1).as(:int) }
-
+    rule(:integer) { match('[0-9]').repeat(1).as(:int) }
     rule(:literal) { match["^#{NON_LITERALS}"].as(:letter) >> repeat.maybe  }
 
     rule(:repeat_amount) { lcurly >> integer.as(:repeat) >> (comma >> integer.as(:max).maybe).maybe >> rcurly }
     rule(:repeat) { plus.as(:repeat) | multiply.as(:repeat) | questionmark.as(:optional) | repeat_amount }
 
-    #groups
-    rule(:group) do
-      lparen >> expression.as(:elements) >> rparen >> repeat.maybe
-    end
+    rule(:group) { lparen >> expression.as(:elements) >> rparen >> repeat.maybe }
 
     # character classes
     rule(:alpha) { match["a-z"] }
@@ -42,7 +38,7 @@ module Expgen
     rule(:code_point_hex) { backslash >> str("x") >> match["0-9a-fA-F"].repeat(2,2).as(:code) >> repeat.maybe }
     rule(:code_point_unicode) { backslash >> str("u") >> match["0-9a-fA-F"].repeat(4,4).as(:code) >> repeat.maybe }
     rule(:escape_char_control) { backslash >> match["nsrtvfae"].as(:letter) >> repeat.maybe }
-    rule(:escape_char_literal) { backslash >> match(".").as(:letter) >> repeat.maybe }
+    rule(:escape_char_literal) { backslash >> any.as(:letter) >> repeat.maybe }
 
     rule(:escape_char) { escape_char_control.as(:escape_char_control) | code_point_octal.as(:code_point_octal) | code_point_hex.as(:code_point_hex) | code_point_unicode.as(:code_point_unicode) | escape_char_literal.as(:escape_char_literal) }
 
