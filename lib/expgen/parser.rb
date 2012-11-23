@@ -24,7 +24,7 @@ module Expgen
 
     #groups
     rule(:group) do
-      lparen >> expression.as(:content) >> rparen >> repeat.maybe
+      lparen >> expression.as(:elements) >> rparen >> repeat.maybe
     end
 
     # character classes

@@ -12,6 +12,12 @@ module Expgen
       end
     end
 
+    class Group < Node
+      def elements
+        ast[:elements]
+      end
+    end
+
     class Character < Node; end
 
     class CharacterClass < Character
