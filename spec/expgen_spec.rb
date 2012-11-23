@@ -162,4 +162,11 @@ describe Expgen do
     test(/f\q{2,}o/)
     test(/f\q{2,4}o/)
   end
+
+  describe "escaped special characters" do
+    test(/\//)
+    test(/#{Expgen::NON_LITERALS}/)
+    test(/}{/)
+    test(/\{\}/)
+  end
 end

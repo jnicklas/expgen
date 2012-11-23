@@ -1,5 +1,5 @@
 module Expgen
-  NON_LITERALS = "[]\^$.|?*+(){}".split("").map { |l| "\\" + l }.join
+  NON_LITERALS = "[]\^$.|?*+()".split("").map { |l| "\\" + l }.join
 
   class Parser < Parslet::Parser
     rule(:lparen)     { str('(') }
