@@ -40,12 +40,11 @@ module Expgen
     rule(:code_point_octal) { match["0-7"].repeat(3).as(:code_point_octal) }
     rule(:code_point_hex) { str("x") >> match["0-9a-fA-F"].repeat(2).as(:code_point_hex) }
     rule(:code_point_unicode) { str("u") >> match["0-9a-fA-F"].repeat(4).as(:code_point_unicode) }
-    rule(:control_char) { backslash >> (match["nsrtvfae"].as(:control_char) | code_point_octal | code_point_hex | code_point_unicode) }
 
-    rule(:escaped_char) { backslash >> match(".").as(:literal) }
+    rule(:escape_char) { backslash >> (match["nsrtvfae"].as(:escape_char) | code_point_octal | code_point_hex | code_point_unicode | match(".").as(:literal)) }
 
     # basics
-    rule(:thing) { anchor | char_class_shorthand.as(:char_class_shorthand) | control_char | escaped_char | literal.as(:literal) | group.as(:group) | char_class.as(:char_class) }
+    rule(:thing) { anchor | char_class_shorthand.as(:char_class_shorthand) | escape_char | literal.as(:literal) | group.as(:group) | char_class.as(:char_class) }
     rule(:things) { thing.repeat(1) }
 
     rule(:anchor) { str("^") | str("$") | backslash >> match["bBAzZ"] }

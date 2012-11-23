@@ -2,17 +2,6 @@ module Expgen
   module Randomizer
     extend self
 
-    ESCAPE_CHARS = {
-      "n" => "\n",
-      "s" => "\s",
-      "r" => "\r",
-      "t" => "\t",
-      "v" => "\v",
-      "f" => "\f",
-      "a" => "\a",
-      "e" => "\e"
-    }
-
     def repeat(number)
       if number == "*"
         ""
@@ -36,8 +25,6 @@ module Expgen
           repeat(value[:repeat]) { randomize(value[:content]) }
         when :char_class
           repeat(value[:repeat]) { value[:content].map(&:chars).flatten.sample }
-        when :control_char
-          ESCAPE_CHARS[value.to_s]
         when :code_point_octal
           value.to_s.to_i(8).chr
         when :code_point_hex
@@ -50,6 +37,8 @@ module Expgen
         repeat(tree.repeat) { tree.chars.sample }
       elsif tree.is_a?(CharacterClass::ShorthandGroup)
         repeat(tree.repeat) { tree.chars.sample }
+      elsif tree.is_a?(CharacterClass::EscapeCharGroup)
+        tree.chars.sample
       else
         tree.to_s
       end

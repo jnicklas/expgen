@@ -41,6 +41,13 @@ module Expgen
       end
     end
 
+    class EscapeCharGroup < Struct.new(:ast)
+      ESCAPE_CHARS = { "n" => "\n", "s" => "\s", "r" => "\r", "t" => "\t", "v" => "\v", "f" => "\f", "a" => "\a", "e" => "\e" }
+      def chars
+        [ESCAPE_CHARS[ast.to_s]]
+      end
+    end
+
     def groups
       ast[:groups]
     end
