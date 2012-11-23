@@ -18,6 +18,12 @@ module Expgen
       end
     end
 
+    class Alternation < Node
+      def options
+        ast.map { |option| option[:alt] }
+      end
+    end
+
     class Character < Node; end
 
     class CharacterClass < Character

@@ -17,12 +17,8 @@ module Expgen
     def randomize(tree)
       if tree.is_a?(Array)
         tree.map { |el| randomize(el) }.join
-      elsif tree.is_a?(Hash)
-        key, value = tree.keys.first, tree.values.first
-        case key
-        when :alternation then randomize(value.sample[:alt])
-        else raise ArgumentError, "unknown key #{key}"
-        end
+      elsif tree.is_a?(Nodes::Alternation)
+        randomize(tree.options.sample)
       elsif tree.is_a?(Nodes::Group)
         repeat(tree.repeat) { randomize(tree.elements) }
       elsif tree.is_a?(Nodes::Character)
