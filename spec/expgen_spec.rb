@@ -32,6 +32,7 @@ describe Expgen do
     test(/f(oo|ba){3,}r/)
     test(/f(oo|ba)+r/)
     test(/f(oo|ba)*r/)
+    test(/f(oo|ba)?r/)
     test(/f(oo|ba|qx|foo)+r/)
     test(/(oo)|(ba)/)
     test(/(o(blah|baz)(o|b))|(ba)/)
@@ -49,6 +50,7 @@ describe Expgen do
     test(/f[abcd]{2}b/)
     test(/f[abcd]{2,}b/)
     test(/f[abcd]{2,4}b/)
+    test(/f[abcd]?b/)
   end
 
   describe "anchors (are simply ignored)" do
@@ -66,6 +68,7 @@ describe Expgen do
     test(/f\w{2}o/)
     test(/f\w{3,}o/)
     test(/f\w{2,4}o/)
+    test(/f\w?o/)
     test(/f\Wo/)
     test(/f\do/)
     test(/f\Do/)
@@ -137,6 +140,7 @@ describe Expgen do
     test(/fo{2}o/)
     test(/fo{2,}o/)
     test(/fo{2,4}o/)
+    test(/fo?o/)
   end
 
   describe "repeated escape characters" do
@@ -144,26 +148,31 @@ describe Expgen do
     test(/f\n+o/)
     test(/f\n{2}o/)
     test(/f\n{2,5}o/)
+    test(/f\n?o/)
     test(/f\345*o/)
     test(/f\345+o/)
     test(/f\345{2}o/)
     test(/f\345{2,}o/)
     test(/f\345{2,4}o/)
+    test(/f\345?o/)
     test(/f\xAF*o/)
     test(/f\xAF+o/)
     test(/f\xAF{2}o/)
     test(/f\xAF{2,}o/)
     test(/f\xAF{2,4}o/)
+    test(/f\xAF?o/)
     test(/f\u04AF*o/u)
     test(/f\u04AF+o/u)
     test(/f\u04AF{2}o/u)
     test(/f\u04AF{2,}o/u)
     test(/f\u04AF{2,4}o/u)
+    test(/f\u04AF?o/u)
     test(/f\q+o/)
     test(/f\q*o/)
     test(/f\q{2}o/)
     test(/f\q{2,}o/)
     test(/f\q{2,4}o/)
+    test(/f\q?o/)
   end
 
   describe "escaped special characters" do

@@ -14,13 +14,14 @@ module Expgen
     rule(:dash)       { str('-') }
     rule(:comma)      { str(',') }
     rule(:backslash)  { str('\\') }
+    rule(:questionmark) { str('?') }
 
     rule(:integer)    { match('[0-9]').repeat(1).as(:int) }
 
     rule(:literal) { match["^#{NON_LITERALS}"].as(:letter) >> repeat.maybe  }
 
     rule(:repeat_amount) { lcurly >> integer.as(:repeat) >> (comma >> integer.as(:max).maybe).maybe >> rcurly }
-    rule(:repeat) { plus.as(:repeat) | multiply.as(:repeat) | repeat_amount }
+    rule(:repeat) { plus.as(:repeat) | multiply.as(:repeat) | questionmark.as(:optional) | repeat_amount }
 
     #groups
     rule(:group) do
