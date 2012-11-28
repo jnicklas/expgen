@@ -191,4 +191,19 @@ describe Expgen do
     test(/f.{2,4}o/)
     test(/f.?o/)
   end
+
+  describe "special char inside character class" do
+    test(/f[.]o/)
+    test(/f[\\]o/)
+    test(/f[a^]o/)
+    test(/f[$]o/)
+    test(/f[|]o/)
+    test(/f[?]o/)
+    test(/f[*]o/)
+    test(/f[+]o/)
+    test(/f[(]o/)
+    test(/f[)]o/)
+    test(/f[{]o/)
+    test(/f[}]o/)
+  end
 end

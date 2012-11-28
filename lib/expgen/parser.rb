@@ -46,7 +46,7 @@ module Expgen
 
       rule(:alpha) { match["a-z"] }
       rule(:number) { match["0-9"] }
-      rule(:char) { match["^#{NON_LITERALS}"].as(:letter) }
+      rule(:char) { match["^\\[\\]"].as(:letter) }
       rule(:wildcard) { str('.').as(:wildcard) }
       rule(:range) { (alpha.as(:from) >> dash >> alpha.as(:to)) | (number.as(:from) >> dash >> number.as(:to)) }
 
