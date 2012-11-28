@@ -6,10 +6,11 @@ describe Expgen do
       begin
         20.times { Expgen.gen(exp).should =~ exp }
       rescue Exception => e
+        tree = Expgen::Parser::Expression.new.parse(exp.source)
         puts
         puts "exp: " + exp.inspect
-        puts "tree: " + Expgen::Parser.new.parse(exp.source).inspect
-        puts "trans: " + Expgen::Transform.new.apply(Expgen::Parser.new.parse(exp.source)).inspect
+        puts "tree: " + tree.inspect
+        puts "trans: " + Expgen::Transform.new.apply(tree).inspect
         puts "output: " + Expgen.gen(exp)
         puts
         raise e
