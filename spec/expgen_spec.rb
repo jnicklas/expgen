@@ -181,4 +181,13 @@ describe Expgen do
     test(/}{/)
     test(/\{\}/)
   end
+
+  describe "the wildcard character" do
+    test(/f.*o/)
+    test(/f.+o/)
+    test(/f.{2}o/)
+    test(/f.{2,}o/)
+    test(/f.{2,4}o/)
+    test(/f.?o/)
+  end
 end

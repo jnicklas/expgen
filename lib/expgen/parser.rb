@@ -47,6 +47,7 @@ module Expgen
       rule(:alpha) { match["a-z"] }
       rule(:number) { match["0-9"] }
       rule(:char) { match["^#{NON_LITERALS}"].as(:letter) }
+      rule(:wildcard) { str('.').as(:wildcard) }
       rule(:range) { (alpha.as(:from) >> dash >> alpha.as(:to)) | (number.as(:from) >> dash >> number.as(:to)) }
 
       rule(:contents) { ShorthandCharacterClass.new | EscapeChar.new | range.as(:char_class_range) | char.as(:char_class_literal) }
@@ -64,9 +65,11 @@ module Expgen
 
       rule(:literal) { match["^#{NON_LITERALS}"].as(:letter) >> Repeat.new.maybe  }
 
+      rule(:wildcard) { str('.').as(:wildcard) >> Repeat.new.maybe }
+
       rule(:group) { lparen >> expression.as(:elements) >> rparen >> Repeat.new.maybe }
 
-      rule(:thing) { anchor | ShorthandCharacterClass.new | EscapeChar.new | literal.as(:literal) | group.as(:group) | CharacterClass.new }
+      rule(:thing) { anchor | ShorthandCharacterClass.new | EscapeChar.new | wildcard.as(:wildcard) | literal.as(:literal) | group.as(:group) | CharacterClass.new }
       rule(:things) { thing.repeat(1) }
 
       rule(:anchor) { str("^") | str("$") | backslash >> match["bBAzZ"] }

@@ -47,6 +47,12 @@ module Expgen
       end
     end
 
+    class Wildcard < Character
+      def chars
+        ASCII
+      end
+    end
+
     class Shorthand < Character
       def chars
         case ast[:letter].to_s
