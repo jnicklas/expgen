@@ -67,7 +67,8 @@ module Expgen
 
       rule(:wildcard) { str('.').as(:wildcard) >> Repeat.new.maybe }
 
-      rule(:group) { lparen >> expression.as(:elements) >> rparen >> Repeat.new.maybe }
+      rule(:non_capturing) { str('?:') | str("?-mix:") }
+      rule(:group) { lparen >> non_capturing.maybe >> expression.as(:elements) >> rparen >> Repeat.new.maybe }
 
       rule(:thing) { anchor | ShorthandCharacterClass.new | EscapeChar.new | wildcard.as(:wildcard) | literal.as(:literal) | group.as(:group) | CharacterClass.new }
       rule(:things) { thing.repeat(1) }

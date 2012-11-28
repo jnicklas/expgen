@@ -206,4 +206,13 @@ describe Expgen do
     test(/f[{]o/)
     test(/f[}]o/)
   end
+
+  describe "optional capture groups" do
+    test(/f(?:foo)o/)
+    test(/f(?:foo|bar)+o/)
+  end
+
+  describe "weird interpolation thing" do
+    test(/f#{/oo/}o/)
+  end
 end
