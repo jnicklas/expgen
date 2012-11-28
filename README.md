@@ -15,7 +15,7 @@ even quite easy to create a regexp which matches *no* strings. For example
 between characters.
 
 When given a negative character class, Expgen takes the entire ASCII character
-set (sans control characters) and remove from it any characters excluded by the
+set (sans control characters) and removes from it any characters excluded by the
 character class. In other words, if the character class excludes the *entire*
 ASCII character set, Expgen will be unable to fill this space.
 
