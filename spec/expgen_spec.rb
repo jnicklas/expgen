@@ -215,4 +215,36 @@ describe Expgen do
   describe "weird interpolation thing" do
     test(/f#{/oo/}o/)
   end
+
+  describe "bracket expressions" do
+    test(/f[[:alnum:]]o/)
+    test(/f[[:alpha:]]o/)
+    test(/f[[:blank:]]o/)
+    test(/f[[:cntrl:]]o/)
+    test(/f[[:digit:]]o/)
+    test(/f[[:graph:]]o/)
+    test(/f[[:lower:]]o/)
+    test(/f[[:print:]]o/)
+    test(/f[[:punct:]]o/)
+    test(/f[[:space:]]o/)
+    test(/f[[:upper:]]o/)
+    test(/f[[:xdigit:]]o/)
+    test(/f[[:word:]]o/)
+    test(/f[[:ascii:]]o/)
+  end
+
+  describe "negated bracket expressions" do
+    test(/f[^[:alnum:]]o/)
+    test(/f[^[:alpha:]]o/)
+    test(/f[^[:blank:]]o/)
+    test(/f[^[:cntrl:]]o/)
+    test(/f[^[:digit:]]o/)
+    test(/f[^[:graph:]]o/)
+    test(/f[^[:lower:]]o/)
+    test(/f[^[:punct:]]o/)
+    test(/f[^[:space:]]o/)
+    test(/f[^[:upper:]]o/)
+    test(/f[^[:xdigit:]]o/)
+    test(/f[^[:word:]]o/)
+  end
 end

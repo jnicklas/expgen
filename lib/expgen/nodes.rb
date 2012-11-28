@@ -68,6 +68,27 @@ module Expgen
       end
     end
 
+    class BracketExpression < Character
+      def chars
+        case ast[:name].to_s
+          when "alnum" then ALPHA + DIGIT
+          when "alpha" then ALPHA
+          when "blank" then " "
+          when "cntrl" then CONTROL_CHARS
+          when "digit" then DIGIT
+          when "graph" then NON_SPACE
+          when "lower" then LOWER
+          when "print" then ASCII
+          when "punct" then PUNCT
+          when "space" then SPACE
+          when "upper" then UPPER
+          when "xdigit" then HEX_DIGIT
+          when "word" then WORD + ["_"]
+          when "ascii" then ASCII
+        end
+      end
+    end
+
     class Range < Character
       def chars
         (ast[:from].to_s..ast[:to].to_s).to_a

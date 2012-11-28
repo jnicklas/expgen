@@ -49,8 +49,9 @@ module Expgen
       rule(:char) { match["^\\[\\]"].as(:letter) }
       rule(:wildcard) { str('.').as(:wildcard) }
       rule(:range) { (alpha.as(:from) >> dash >> alpha.as(:to)) | (number.as(:from) >> dash >> number.as(:to)) }
+      rule(:bracket_expression) { str("[:") >> alpha.repeat(1).as(:name) >> str(":]") }
 
-      rule(:contents) { ShorthandCharacterClass.new | EscapeChar.new | range.as(:char_class_range) | char.as(:char_class_literal) }
+      rule(:contents) { ShorthandCharacterClass.new | EscapeChar.new | range.as(:char_class_range) | char.as(:char_class_literal) | bracket_expression.as(:bracket_expression) }
       rule(:negative) { match["\\^"] }
 
       rule(:char_class) { (lbracket >> negative.maybe.as(:negative) >> contents.repeat.as(:groups) >> rbracket >> Repeat.new.maybe).as(:char_class) }

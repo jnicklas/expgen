@@ -11,6 +11,7 @@ module Expgen
     rule(:code_point_octal => subtree(:x)) { Nodes::CodePointOctal.new(x) }
     rule(:code_point_hex => subtree(:x)) { Nodes::CodePointHex.new(x) }
     rule(:code_point_unicode => subtree(:x)) { Nodes::CodePointUnicode.new(x) }
+    rule(:bracket_expression => subtree(:x)) { Nodes::BracketExpression.new(x) }
     rule(:group => subtree(:x)) { Nodes::Group.new(x) }
     rule(:alternation => subtree(:x)) { Nodes::Alternation.new(x) }
   end
