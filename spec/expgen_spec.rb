@@ -1,20 +1,9 @@
 require "spec_helper"
 
 describe Expgen do
-  def self.test(exp, *args)
-    it "can generate expressions which match #{exp.source}", *args do
-      begin
-        20.times { Expgen.gen(exp).should =~ exp }
-      rescue Exception => e
-        tree = Expgen::Parser::Expression.new.parse(exp.source)
-        puts
-        puts "exp: " + exp.inspect
-        puts "tree: " + tree.inspect
-        puts "trans: " + Expgen::Transform.new.apply(tree).inspect
-        puts "output: " + Expgen.gen(exp)
-        puts
-        raise e
-      end
+  def self.test(exp)
+    it "can generate expressions which match #{exp.inspect}", :caller => caller do
+      20.times { Expgen.gen(exp).should =~ exp }
     end
   end
 
