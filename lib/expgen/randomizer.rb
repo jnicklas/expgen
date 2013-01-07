@@ -2,16 +2,22 @@ module Expgen
   module Randomizer
     extend self
 
-    def repeat(number)
+    def range(number)
       if number == "*"
-        ""
+        [0,5]
       elsif number == "+"
-        yield
+        [1,5]
       elsif number
-        number[:int].to_i.times.map { yield }.join
+        [number[:int].to_i, number[:int].to_i]
       else
-        yield
+        [1,1]
       end
+    end
+
+    def repeat(number)
+      first, last = range(number)
+      number = rand(last - first + 1) + first
+      number.times.map { yield }.join
     end
 
     def randomize(tree)
