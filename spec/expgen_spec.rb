@@ -11,6 +11,10 @@ describe Expgen do
     expect { Expgen.gen(/(?!foo)/) } .to raise_error(Expgen::ParseError)
   end
 
+  it "can generate from a string" do
+    Expgen.gen("f\wo").should =~ /f\wo/
+  end
+
   test(/foo|bar/)
 
   describe "groups" do

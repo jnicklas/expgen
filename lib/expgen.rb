@@ -34,8 +34,9 @@ module Expgen
   end
 
   def self.gen(exp)
-    cache[exp.source] ||= Transform.new.apply((Parser::Expression.new.parse(exp.source)))
-    Randomizer.randomize(cache[exp.source])
+    source = if exp.respond_to?(:source) then exp.source else exp.to_s end
+    cache[source] ||= Transform.new.apply((Parser::Expression.new.parse(source)))
+    Randomizer.randomize(cache[source])
   rescue Parslet::ParseFailed => e
     raise Expgen::ParseError, e.message
   end
