@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require "expgen"
+puts Expgen.gen(ARGV.first)
