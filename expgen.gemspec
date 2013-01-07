@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Expgen::VERSION
   gem.authors       = ["Jonas Nicklas"]
   gem.email         = ["jonas.nicklas@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{Generate random strings from regular expression}
+  gem.summary       = %q{Generate random regular expression}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)
