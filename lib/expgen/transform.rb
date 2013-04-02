@@ -1,5 +1,6 @@
 module Expgen
   class Transform < Parslet::Transform
+    rule(:int => simple(:x)) { Integer(x) }
     rule(:literal => subtree(:x)) { Nodes::Literal.new(x) }
     rule(:wildcard => subtree(:x)) { Nodes::Wildcard.new(x) }
     rule(:char_class_range => subtree(:x)) { Nodes::Range.new(x) }

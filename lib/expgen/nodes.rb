@@ -10,6 +10,10 @@ module Expgen
       def repeat
         ast[:repeat]
       end
+
+      def max
+        ast[:max]
+      end
     end
 
     class Group < Node
