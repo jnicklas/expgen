@@ -37,7 +37,7 @@ module Expgen
 
       def chars
         chars = groups.map(&:chars).flatten
-        val = if ast[:negative]
+        if ast[:negative]
           ASCII - chars
         else
           chars
